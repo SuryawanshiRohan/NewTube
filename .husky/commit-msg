@@ -1,0 +1,20 @@
+echo "Validating commit message format..."
+
+# Use commitlint to validate commit message
+bunx --bun commitlint --edit "$1" || {
+  echo "";
+  echo "Commit message validation failed.";
+  echo "";
+  echo "Use conventional commits format:";
+  echo "  feat(scope): add new feature";
+  echo "  fix(scope): fix bug";
+  echo "  docs: update documentation";
+  echo "  style: format code";
+  echo "  refactor: refactor code";
+  echo "  test: add tests";
+  echo "  chore: update dependencies";
+  echo "";
+  exit 1;
+}
+
+echo "Commit message is valid."

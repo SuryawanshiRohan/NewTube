@@ -1,0 +1,43 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+echo "Running pre-push checks..."
+echo ""
+
+# 1. Run TypeScript type checking
+echo "[1/4] Type checking..."
+npm run type-check || {
+  echo "Pre-push: TypeScript type check failed.";
+  exit 1;
+}
+echo "Type check passed."
+echo ""
+
+# 2. Run Prettier check
+echo "[2/4] Checking code formatting..."
+npm run format:check || {
+  echo "Pre-push: Prettier check failed. Run 'npm run format' to fix formatting.";
+  exit 1;
+}
+echo "Formatting check passed."
+echo ""
+
+# 3. Run linter
+echo "[3/4] Running ESLint..."
+npm run lint || {
+  echo "Pre-push: Lint failed. Run 'npm run lint:fix' to fix issues.";
+  exit 1;
+}
+echo "Lint check passed."
+echo ""
+
+# 4. Run build to ensure no build errors
+echo "[4/4] Building project..."
+npm run build || {
+  echo "Pre-push: Build failed. Fix build errors before pushing.";
+  exit 1;
+}
+echo "Build succeeded."
+echo ""
+
+echo "All pre-push checks passed! Ready to push."
