@@ -2,16 +2,16 @@
 import { Button } from "@/components/ui/button";
 
 import { UserCircleIcon } from "lucide-react";
-import { UserButton, SignInButton, SignedIn, SignedOut } from "@clerk/nextjs";
+import { UserButton, SignInButton, Show } from "@clerk/nextjs";
 
 const AuthButton = () => {
   return (
     <>
-      <SignedIn>
+      <Show when="signed-in">
         <UserButton />
         {/* Add the Menu Item for the Studio and User Profile */}
-      </SignedIn>
-      <SignedOut>
+      </Show>
+      <Show when="signed-out">
         <SignInButton mode="modal">
           <Button
             variant="outline"
@@ -21,7 +21,7 @@ const AuthButton = () => {
             Sign In
           </Button>
         </SignInButton>
-      </SignedOut>
+      </Show>
     </>
   );
 };
